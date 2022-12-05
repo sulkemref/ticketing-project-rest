@@ -67,6 +67,11 @@ public class TaskController {
     }
 
 
-    public ResponseEntity<ResponseWrapper> employeeArchivedTasks(){}
+    @GetMapping("/employee/archive")
+    public ResponseEntity<ResponseWrapper> employeeArchivedTasks(){
+        List<TaskDTO> taskDTOList = taskService.listAllTasksByStatus(Status.COMPLETE);
+        return ResponseEntity.ok(new ResponseWrapper("Tasks are successfully retrieved",taskDTOList,HttpStatus.OK));
+
+    }
 
 }
