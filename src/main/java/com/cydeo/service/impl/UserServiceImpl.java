@@ -56,8 +56,6 @@ public class UserServiceImpl implements UserService {
 
         keycloakService.userCreate(user);
 
-
-
     }
 
 //    @Override
