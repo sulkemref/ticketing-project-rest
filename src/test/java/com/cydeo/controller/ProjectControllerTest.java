@@ -93,7 +93,34 @@ class ProjectControllerTest {
                 .header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content("{}"))
+                .content(toJsonString(project)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.message").value("Project is successfully created"));
+    }
+
+    @Test
+    void givenToken_updateProject() throws Exception {
+
+        project.setProjectName("API Project-2");
+
+        mvc.perform(MockMvcRequestBuilders.put("/api/v1/project")
+                        .header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(toJsonString(project)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("Project is successfully updated"));
+    }
+
+    @Test
+    void givenToken_deleteProject() throws Exception {
+
+        mvc.perform(MockMvcRequestBuilders.delete("/api/v1/project/"+project.getProjectCode())
+                        .header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("Project is successfully deleted"));
+
     }
 
     private String toJsonString(final Object obj) throws JsonProcessingException {
